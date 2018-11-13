@@ -16,6 +16,7 @@ import Foundation
 public enum TapType {
     case link
     case phoneNumber
+    case address
     case custom(TapCustom)
 }
 
@@ -41,6 +42,8 @@ extension CuteAttribute where Base: NSMutableAttributedString {
             tapRanges = rangesFrom(checkingType: .link)
         case .phoneNumber:
             tapRanges = rangesFrom(checkingType: .phoneNumber)
+        case .address:
+            tapRanges = rangesFrom(checkingType: .address)
         case .custom(let tapCustom):
             switch tapCustom {
             case .origin(let originString):
