@@ -17,6 +17,7 @@ public enum TapType {
     case link
     case phoneNumber
     case address
+    case date
     case custom(TapCustom)
 }
 
@@ -44,6 +45,8 @@ extension CuteAttribute where Base: NSMutableAttributedString {
             tapRanges = rangesFrom(checkingType: .phoneNumber)
         case .address:
             tapRanges = rangesFrom(checkingType: .address)
+        case .date:
+            tapRanges = rangesFrom(checkingType: .date)
         case .custom(let tapCustom):
             switch tapCustom {
             case .origin(let originString):
