@@ -109,8 +109,23 @@ public extension CuteAttribute where Base: NSMutableAttributedString {
     /// Match all the date.
     ///
     /// - Returns: self
-    public func matchAllDate() -> CuteAttribute<Base> {
-        return matchAllAttribute(checkingType: .date)
+    public func matchAllDate() -> CuteAttribute<Base>
+    {
+        let match = matchAllAttribute(checkingType: .date)
+        
+        guard let dataDetector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.date.rawValue) else { return match }
+        
+        dataDetector.enumerateMatches(in: base.string, options: [], range: NSRange(location: 0, length: base.string.length)) { (result, _, _) in
+            guard let date = result?.date else {
+                return
+            }
+            
+            if date < Date() {
+                ranges = []
+            }
+        }
+        
+        return match
     }
 
     internal func matchAllAttribute(checkingType: NSTextCheckingResult.CheckingType) -> CuteAttribute<Base> {
